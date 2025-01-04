@@ -5,11 +5,13 @@ tasks:
     deps:
       - db:up
     dotenv:
-      - .env
+      - .env.local
     cmds:
       - cargo run
 
   build:
+    dotenv:
+      - .env.local
     cmds:
       - cargo build
 

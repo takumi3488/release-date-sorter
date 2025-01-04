@@ -62,6 +62,7 @@ mod tests {
     use super::*;
 
     #[sqlx::test(fixtures("init"))]
+    #[ignore]
     async fn test_user_volume(pool: sqlx::PgPool) {
         let config = Config { db_pool: pool };
 

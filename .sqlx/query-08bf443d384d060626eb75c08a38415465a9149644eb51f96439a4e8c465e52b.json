@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO user_volumes (user_id, volume_id, checked)\n            VALUES ($1, $2, $3)\n            ON CONFLICT (user_id, volume_id) DO UPDATE\n            SET checked = $3\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Bool"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "08bf443d384d060626eb75c08a38415465a9149644eb51f96439a4e8c465e52b"
+}

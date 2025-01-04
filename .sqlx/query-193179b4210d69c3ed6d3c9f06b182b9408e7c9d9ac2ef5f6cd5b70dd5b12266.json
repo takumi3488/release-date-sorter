@@ -1,0 +1,34 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT\n                user_id,\n                volume_id,\n                checked\n            FROM user_volumes\n            WHERE user_id = $1\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "volume_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "checked",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "193179b4210d69c3ed6d3c9f06b182b9408e7c9d9ac2ef5f6cd5b70dd5b12266"
+}

@@ -1,0 +1,68 @@
+services:
+  preview:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+  
+  web:
+    build:
+      dockerfile: Dockerfile.web
+    environment:
+      - API_ORIGIN=http://server:3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+
+  server:
+    build:
+      dockerfile: Dockerfile.server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 3s
+      timeout: 10s
+      retries: 10
+
+  e2e-preview:
+    build:
+      dockerfile: Dockerfile.web
+    environment:
+      - TARGET_ORIGIN=http://preview:3000
+    depends_on:
+      - preview
+    command: pnpm run e2e
+
+  e2e-dev:
+    build:
+      dockerfile: Dockerfile.web
+    environment:
+      - TARGET_ORIGIN=http://web:9000
+    depends_on:
+      web:
+        condition: service_healthy
+      server:
+        condition: service_healthy
+    command: pnpm run e2e
+
+  postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 3s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

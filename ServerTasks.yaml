@@ -21,7 +21,7 @@ tasks:
     deps:
       - db:up
     dotenv:
-      - .env
+      - .env.local
     cmds:
       - cargo sqlx prepare
 

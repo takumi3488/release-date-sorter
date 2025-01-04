@@ -1,5 +1,9 @@
 version: "3"
 
+includes:
+  front: FrontTasks.yaml
+  server: ServerTasks.yaml
+
 tasks:
   default:
     aliases:
@@ -14,28 +18,6 @@ tasks:
       - server:build
     cmds:
       - ./target/debug/release-date-sorterer
-
-  front:dev:
-    env:
-      FARM_BACKEND_ORIGIN: http://localhost:3000
-    cmds:
-      - pnpm run dev
-
-  front:build:
-    cmds:
-      - pnpm run build
-
-  server:dev:
-    deps:
-      - db:up
-    dotenv:
-      - .env
-    cmds:
-      - cargo run
-
-  server:build:
-    cmds:
-      - cargo build
 
   e2e:
     cmds:
@@ -55,14 +37,11 @@ tasks:
       - docker compose up e2e-preview
       - docker compose stop preview
 
-  db:up:
-    cmds:
-      - docker compose up -d postgres
-
   sqlx:
     deps:
-      - db:up
-    dotenv:
-      - .env
-    cmds:
-      - cargo sqlx prepare
+      - server:sqlx
+
+  lint:
+    deps:
+      - front:lint
+      - server:lint

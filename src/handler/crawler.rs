@@ -27,7 +27,7 @@ pub async fn crawl_pages(headers: HeaderMap, State(config): State<Config>) -> im
         let _ = Danmachi::get_series(&series_repository, &volume_repository)
             .await
             .map_err(|e| {
-                eprintln!("{:?}", e);
+                tracing::error!("Failed to get series: {:?}", e);
             });
     });
     (StatusCode::NO_CONTENT).into_response()

@@ -63,8 +63,8 @@ export default function VolumeCheckCell({
 	}
 
 	return (
-		<TableCell>
-			<Checkbox checked={checked} onClick={hanndleCheck} />
+		<TableCell width={20} sx={{ p: "0" }}>
+			<Checkbox checked={checked} onClick={hanndleCheck} size="small" />
 		</TableCell>
 	);
 }

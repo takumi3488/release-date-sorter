@@ -10,7 +10,7 @@ export default function VolumeCheckCell({
 	id: string;
 	checked: boolean;
 }) {
-	const [match, params] = useRoute("/series/:id/:userId");
+	const [match, params] = useRoute("/series/:id/users/:userId");
 	async function hanndleCheck() {
 		if (!match) return;
 		async function check(userId: string, volumeId: string) {

@@ -32,7 +32,7 @@ fn app(config: Config) -> Router {
     Router::new()
         .fallback_service(static_dir.clone())
         .nest_service("/series/{series_id}", static_dir.clone())
-        .nest_service("/series/{series_id}/{user_id}", static_dir.clone())
+        .nest_service("/series/{series_id}/users/{user_id}", static_dir.clone())
         .nest("/api", api_routes)
         .layer(TraceLayer::new_for_http())
         .with_state(config)

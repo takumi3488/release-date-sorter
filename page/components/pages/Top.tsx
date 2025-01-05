@@ -1,4 +1,6 @@
+import { Box, Typography } from "@mui/material";
 import useSWR from "swr";
+import { Link } from "wouter";
 import fetcher from "../../apiClient/fetcher";
 
 export default function Top() {
@@ -10,10 +12,16 @@ export default function Top() {
 	if (error) return <div>failed to load</div>;
 	if (!data) return <div>loading...</div>;
 	return (
-		<div>
-			{data.map((series) => (
-				<p key={series.id}>{series.id}</p>
-			))}
-		</div>
+		<Box>
+			<ul>
+				{data.map((series) => (
+					<li key={series.id} style={{ marginBottom: "0.5rem" }}>
+						<Link href={`/series/${series.id}`}>
+							<Typography>{series.title}</Typography>
+						</Link>
+					</li>
+				))}
+			</ul>
+		</Box>
 	);
 }

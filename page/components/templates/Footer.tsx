@@ -1,8 +1,10 @@
+import { Typography } from "@mui/material";
+
 export default function Footer() {
 	const year = new Date().getFullYear();
 	return (
 		<footer>
-			<p>&copy; {year} Takumi Mori</p>
+			<Typography sx={{ textAlign: "center" }}>&copy; {year} Takumi Mori</Typography>
 		</footer>
 	);
 }

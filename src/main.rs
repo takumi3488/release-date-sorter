@@ -30,7 +30,9 @@ fn app(config: Config) -> Router {
         )
         .route("/user_volumes", post(upsert_user_volume));
     Router::new()
-        .fallback_service(static_dir)
+        .fallback_service(static_dir.clone())
+        .nest_service("/series/{series_id}", static_dir.clone())
+        .nest_service("/series/{series_id}/{user_id}", static_dir.clone())
         .nest("/api", api_routes)
         .layer(TraceLayer::new_for_http())
         .with_state(config)

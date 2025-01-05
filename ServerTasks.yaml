@@ -1,0 +1,42 @@
+version: "3"
+
+tasks:
+  dev:
+    deps:
+      - db:up
+    dotenv:
+      - .env.local
+    cmds:
+      - cargo run
+
+  db:test:
+    deps:
+      - db:up
+    dotenv:
+      - .env.local
+    cmds:
+      - cargo test -- --ignored
+
+  build:
+    dotenv:
+      - .env.local
+    cmds:
+      - cargo build
+
+  db:up:
+    cmds:
+      - docker compose up -d postgres
+
+  sqlx:
+    deps:
+      - db:up
+    dotenv:
+      - .env.local
+    cmds:
+      - cargo sqlx prepare
+
+  lint:
+    cmds:
+      - cargo sort
+      - cargo clippy --fix --allow-dirty --allow-staged --all-targets --all-features --allow-no-vcs
+      - cargo fmt --all

@@ -1,0 +1,20 @@
+version: "3"
+
+tasks:
+  dev:
+    env:
+      FARM_BACKEND_ORIGIN: http://localhost:3000
+    cmds:
+      - pnpm run dev
+
+  build:
+    cmds:
+      - pnpm run build
+
+  lint:
+    cmds:
+      - pnpm run check:write
+
+  kill:
+    cmds:
+      - kill -9 $(lsof -t -i:9000)

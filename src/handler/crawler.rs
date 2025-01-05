@@ -10,14 +10,15 @@ use crate::{
     usecase::pages::{danmachi::Danmachi, page::Page},
 };
 
-#[axum::debug_handler]
+#[tracing::instrument]
 pub async fn crawl_pages(headers: HeaderMap, State(config): State<Config>) -> impl IntoResponse {
     let token = headers
         .get("authorization")
         .and_then(|value| value.to_str().ok());
-    if config.crawler_password.is_some_and(|password| {
-        !token.is_some_and(|token| token == &format!("Bearer {}", password))
-    }) {
+    if config
+        .crawler_password
+        .is_some_and(|password| token.is_none_or(|token| token != format!("Bearer {}", password)))
+    {
         return (StatusCode::UNAUTHORIZED).into_response();
     }
     let series_repository = SeriesRepository::new(&config.db_pool);

@@ -1,26 +1,15 @@
-import { useEffect, useState } from "react";
+import { Route } from "wouter";
+import Layout from "./components/Layout";
+import Series from "./components/pages/Series";
+import Top from "./components/pages/Top";
 
 export function Main() {
-	const [health, setHealth] = useState<string>("LOADING");
-	useEffect(() => {
-		async function checkHealth() {
-			try {
-				const response = await fetch("/api/health");
-				const responseText = await response.text();
-				setHealth(responseText);
-			} catch (error) {
-				console.error(error);
-				setHealth("ERROR");
-			}
-		}
-		const interval = setInterval(checkHealth, 1000);
-		return () => clearInterval(interval);
-	}, []);
-
 	return (
-		<div>
-			<h1>reac-axum-template</h1>
-			<p>backend: {health}</p>
-		</div>
+		<Layout>
+			<Route path="/">
+				<Top />
+			</Route>
+			<Route path="/series/:id">{({ id }) => <Series id={id} />}</Route>
+		</Layout>
 	);
 }

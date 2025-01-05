@@ -15,6 +15,7 @@ pub trait Page<T> {
         Html::parse_document(document)
     }
     fn get_volumes(html: Html) -> Vec<NewVolume>;
+    fn get_id() -> String;
     fn get_url() -> String;
     async fn get_series(
         series_repository: &impl SeriesRepositoryTrait,
@@ -22,7 +23,7 @@ pub trait Page<T> {
     ) -> Result<Series> {
         let html = Self::get_html_from_url().await?;
         let volumes = Self::get_volumes(html);
-        let series = series_repository.find_by_id(&Self::get_url()).await?;
+        let series = series_repository.find_by_id(&Self::get_id()).await?;
         for volume in &volumes {
             if volume_repository.insert(volume).await.is_err_and(|e| {
                 !e.to_string()

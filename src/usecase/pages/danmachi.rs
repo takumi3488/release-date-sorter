@@ -15,6 +15,10 @@ impl Page<Danmachi> for Danmachi {
         "https://ja.wikipedia.org/wiki/%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3%E3%81%AB%E5%87%BA%E4%BC%9A%E3%81%84%E3%82%92%E6%B1%82%E3%82%81%E3%82%8B%E3%81%AE%E3%81%AF%E9%96%93%E9%81%95%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%81%A0%E3%82%8D%E3%81%86%E3%81%8B".to_string()
     }
 
+    fn get_id() -> String {
+        SERIES_ID.to_string()
+    }
+
     fn get_volumes(html: Html) -> Vec<NewVolume> {
         let contents_selector =
             Selector::parse("div#mw-content-text>div.mw-content-ltr.mw-parser-output").unwrap();

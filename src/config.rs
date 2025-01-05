@@ -1,6 +1,6 @@
 use std::env;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Config {
     pub db_pool: sqlx::PgPool,
     pub crawler_password: Option<String>,

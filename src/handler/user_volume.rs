@@ -32,6 +32,7 @@ pub struct VolumeWithChecking {
     pub checked: bool,
 }
 
+#[tracing::instrument]
 pub async fn get_series_with_checking(
     State(config): State<Config>,
     Path((user_id, series_id)): Path<(Uuid, String)>,
@@ -68,6 +69,7 @@ pub async fn get_series_with_checking(
     }))
 }
 
+#[tracing::instrument]
 pub async fn upsert_user_volume(
     State(config): State<Config>,
     Json(user_volume): Json<UserVolume>,

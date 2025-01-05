@@ -13,6 +13,8 @@ tasks:
       - server:dev
 
   preview:
+    dotenv:
+      - .env.local
     deps:
       - front:build
       - server:build

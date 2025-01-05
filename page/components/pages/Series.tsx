@@ -28,7 +28,7 @@ export default function Series({
 					このURLは他の人と共有しないでください。
 				</Alert>
 			) : (
-				<Link href={`/series/${id}/${crypto.randomUUID()}`}>
+				<Link href={`/series/${id}/users/${crypto.randomUUID()}`}>
 					URLを発行して進捗を保存する
 				</Link>
 			)}

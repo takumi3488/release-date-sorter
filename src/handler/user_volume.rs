@@ -88,7 +88,10 @@ mod tests {
     #[sqlx::test(fixtures("init"))]
     #[ignore]
     async fn test_user_volume(pool: sqlx::PgPool) {
-        let config = Config { db_pool: pool };
+        let config = Config {
+            db_pool: pool,
+            crawler_password: None,
+        };
 
         // 初期状態では何もない
         let user_id = Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap();

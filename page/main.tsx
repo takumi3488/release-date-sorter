@@ -10,6 +10,9 @@ export function Main() {
 				<Top />
 			</Route>
 			<Route path="/series/:id">{({ id }) => <Series id={id} />}</Route>
+			<Route path="/series/:id/:userId">
+				{({ id, userId }) => <Series id={id} userId={userId} />}
+			</Route>
 		</Layout>
 	);
 }

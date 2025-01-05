@@ -9,6 +9,14 @@ tasks:
     cmds:
       - cargo run
 
+  db:test:
+    deps:
+      - db:up
+    dotenv:
+      - .env.local
+    cmds:
+      - cargo test -- --ignored
+
   build:
     dotenv:
       - .env.local

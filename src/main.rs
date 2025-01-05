@@ -12,7 +12,7 @@ use config::Config;
 use handler::{
     crawler::crawl_pages,
     series::{get_series, get_series_by_id},
-    user_volume::{get_series_with_user_volumes, upsert_user_volume},
+    user_volume::{get_series_with_checking, upsert_user_volume},
 };
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing::debug;
@@ -26,7 +26,7 @@ fn app(config: Config) -> Router {
         .route("/series/{id}", get(get_series_by_id))
         .route(
             "/{user_id}/series/{series_id}",
-            get(get_series_with_user_volumes),
+            get(get_series_with_checking),
         )
         .route("/user_volumes", post(upsert_user_volume));
     Router::new()

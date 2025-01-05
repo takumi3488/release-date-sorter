@@ -14,3 +14,7 @@ tasks:
   lint:
     cmds:
       - pnpm run check:write
+
+  kill:
+    cmds:
+      - kill -9 $(lsof -t -i:9000)

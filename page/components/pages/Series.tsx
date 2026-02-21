@@ -6,7 +6,10 @@ import VolumeTable from "../organisms/VolumeTable";
 export default function Series({
 	id,
 	userId,
-}: { id: string; userId?: string }) {
+}: {
+	id: string;
+	userId?: string;
+}) {
 	const { data: series, error } = useSeriesDetails(id, userId);
 	if (error) return <div>failed to load</div>;
 	if (!series) return <div>loading...</div>;

@@ -112,9 +112,7 @@ impl Page<Danmachi> for Danmachi {
                             };
                             let new_volumes = table
                                 .select(&row_selector)
-                                .filter_map(|row| {
-                                    parse_row(row, &td_selector, &date_pattern, &en)
-                                })
+                                .filter_map(|row| parse_row(row, &td_selector, &date_pattern, &en))
                                 .collect::<Vec<_>>();
                             volumes.extend(new_volumes);
                         }

@@ -17,7 +17,7 @@ pub async fn crawl_pages(headers: HeaderMap, State(config): State<Config>) -> im
         .and_then(|value| value.to_str().ok());
     if config
         .crawler_password
-        .is_some_and(|password| token.is_none_or(|token| token != format!("Bearer {}", password)))
+        .is_some_and(|password| token.is_none_or(|token| token != format!("Bearer {password}")))
     {
         return (StatusCode::UNAUTHORIZED).into_response();
     }

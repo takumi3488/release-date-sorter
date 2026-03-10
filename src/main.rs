@@ -43,7 +43,7 @@ async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
-    let config = Config::load().await;
+    let config = Config::load().await?;
     let app = app(config);
     axum::serve(listener, app).await?;
     Ok(())

@@ -88,41 +88,41 @@ mod tests {
     use super::*;
 
     #[sqlx::test(fixtures("init"))]
-    #[ignore]
-    async fn test_user_volume(pool: sqlx::PgPool) {
+    #[ignore = "requires database connection"]
+    async fn test_user_volume(pool: sqlx::PgPool) -> anyhow::Result<()> {
         let config = Config {
             db_pool: pool,
             crawler_password: None,
         };
 
         // 初期状態では何もない
-        let user_id = Uuid::parse_str("00000000-0000-0000-0000-000000000000").unwrap();
+        let user_id = Uuid::parse_str("00000000-0000-0000-0000-000000000000")?;
         let series_id = "series1".to_string();
         let response =
             get_series_with_checking(State(config.clone()), Path((user_id, series_id.clone())))
                 .await
-                .unwrap();
+                .map_err(|e| anyhow::anyhow!("{e:?}"))?;
         assert_eq!(response.id, "series1");
         assert_eq!(response.volumes.iter().filter(|v| v.checked).count(), 0);
 
         // チェックが追加できる
         let user_volume = UserVolume {
             user_id,
-            volume_id: Uuid::parse_str("00000000-0000-0000-0000-000000000001").unwrap(),
+            volume_id: Uuid::parse_str("00000000-0000-0000-0000-000000000001")?,
             checked: true,
         };
         upsert_user_volume(State(config.clone()), Json(user_volume)).await;
         let response =
             get_series_with_checking(State(config.clone()), Path((user_id, series_id.clone())))
                 .await
-                .unwrap();
+                .map_err(|e| anyhow::anyhow!("{e:?}"))?;
         assert_eq!(response.id, "series1");
         assert_eq!(response.volumes.iter().filter(|v| v.checked).count(), 1);
 
         // チェックが更新できる
         let user_volume = UserVolume {
             user_id,
-            volume_id: Uuid::parse_str("00000000-0000-0000-0000-000000000001").unwrap(),
+            volume_id: Uuid::parse_str("00000000-0000-0000-0000-000000000001")?,
             checked: false,
         };
         let response = upsert_user_volume(State(config.clone()), Json(user_volume)).await;
@@ -133,8 +133,9 @@ mod tests {
         let response =
             get_series_with_checking(State(config.clone()), Path((user_id, series_id.clone())))
                 .await
-                .unwrap();
+                .map_err(|e| anyhow::anyhow!("{e:?}"))?;
         assert_eq!(response.id, "series1");
         assert_eq!(response.volumes.iter().filter(|v| v.checked).count(), 0);
+        Ok(())
     }
 }

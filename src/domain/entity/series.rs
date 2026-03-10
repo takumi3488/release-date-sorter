@@ -30,7 +30,7 @@ impl Series {
     }
 
     pub fn sort_volumes_by_publication_date(&mut self) {
-        self.volumes.sort_by(|a, b| a.compare_publication_date(b));
+        self.volumes.sort_by(Volume::compare_publication_date);
     }
 }
 
@@ -42,21 +42,18 @@ mod tests {
 
     #[test]
     fn test_sort_volumes_by_publication_date() {
-        let volume1 = Volume::new(
-            Uuid::new_v4(),
-            "Volume 1",
-            NaiveDate::from_num_days_from_ce_opt(0).unwrap(),
-        );
-        let volume2 = Volume::new(
-            Uuid::new_v4(),
-            "Volume 2",
-            NaiveDate::from_num_days_from_ce_opt(1).unwrap(),
-        );
-        let volume3 = Volume::new(
-            Uuid::new_v4(),
-            "Volume 3",
-            NaiveDate::from_num_days_from_ce_opt(2).unwrap(),
-        );
+        let Some(date0) = NaiveDate::from_num_days_from_ce_opt(0) else {
+            panic!("invalid date");
+        };
+        let Some(date1) = NaiveDate::from_num_days_from_ce_opt(1) else {
+            panic!("invalid date");
+        };
+        let Some(date2) = NaiveDate::from_num_days_from_ce_opt(2) else {
+            panic!("invalid date");
+        };
+        let volume1 = Volume::new(Uuid::new_v4(), "Volume 1", date0);
+        let volume2 = Volume::new(Uuid::new_v4(), "Volume 2", date1);
+        let volume3 = Volume::new(Uuid::new_v4(), "Volume 3", date2);
 
         let mut series =
             Series::new("", "", "Series").with_volumes(vec![volume3, volume1, volume2]);

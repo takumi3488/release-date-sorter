@@ -56,7 +56,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       core-js:
         specifier: ^3.39.0
-        version: 3.48.0
+        version: 3.49.0
       react-refresh:
         specifier: ^0.18.0
         version: 0.18.0
@@ -785,8 +785,8 @@ packages:
     resolution: {integrity: sha512-TG2hpqe4ELx54QER/S3HQ9SRVnQnGBtKUz5bLQWtYAQ+o6GpgMs6sYUvaiJjVxb+UXwhRhAEP3m7LbsIZ77Hmw==}
     engines: {node: '>= 0.8'}
 
-  core-js@3.48.0:
-    resolution: {integrity: sha512-zpEHTy1fjTMZCKLHUZoVeylt9XrzaIN2rbPXEt0k+q7JE5CkCZdo6bNq55bn24a69CH7ErAVLKijxJja4fw+UQ==}
+  core-js@3.49.0:
+    resolution: {integrity: sha512-es1U2+YTtzpwkxVLwAFdSpaIMyQaq0PBgm3YD1W3Qpsn1NAmO3KSgZfu+oGSWVu6NvLHoHCV/aYcsE5wiB7ALg==}
 
   cosmiconfig@7.1.0:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
@@ -2342,15 +2342,15 @@ snapshots:
 
   '@farmfe/runtime-plugin-hmr@3.5.10':
     dependencies:
-      core-js: 3.48.0
+      core-js: 3.49.0
 
   '@farmfe/runtime-plugin-import-meta@0.2.3':
     dependencies:
-      core-js: 3.48.0
+      core-js: 3.49.0
 
   '@farmfe/runtime@0.12.10':
     dependencies:
-      core-js: 3.48.0
+      core-js: 3.49.0
 
   '@farmfe/utils@0.0.1': {}
 
@@ -2712,7 +2712,7 @@ snapshots:
       depd: 2.0.0
       keygrip: 1.1.0
 
-  core-js@3.48.0: {}
+  core-js@3.49.0: {}
 
   cosmiconfig@7.1.0:
     dependencies:

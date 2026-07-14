@@ -7,7 +7,7 @@ COPY . /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
 
-FROM rust:1 AS server
+FROM rust:1-bookworm AS server
 WORKDIR /usr/src/app
 COPY . .
 RUN cargo build --release

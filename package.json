@@ -32,7 +32,7 @@
     "core-js": "^3.39.0",
     "react-refresh": "^0.18.0"
   },
-  "packageManager": "pnpm@11.13.1",
+  "packageManager": "pnpm@11.14.0",
   "pnpm": {
     "executionEnv": {
       "nodeVersion": "22.12.0"

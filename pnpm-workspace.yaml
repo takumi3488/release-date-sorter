@@ -49,3 +49,5 @@ minimumReleaseAgeExclude:
   - '@playwright/test@1.61.1'
   - playwright-core@1.61.1
   - playwright@1.61.1
+  - react@19.2.7
+  - react-dom@19.2.8

@@ -138,3 +138,4 @@ minimumReleaseAgeExclude:
   - '@biomejs/cli-linux-x64@2.5.14'
   - '@biomejs/cli-win32-arm64@2.5.14'
   - '@biomejs/cli-win32-x64@2.5.14'
+  - wouter@3.12.0

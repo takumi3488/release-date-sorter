@@ -153,3 +153,10 @@ minimumReleaseAgeExclude:
   - '@biomejs/cli-win32-x64@2.5.15'
   - wouter@3.12.0
   - wouter@3.13.0
+  - '@mui/core-downloads-tracker@9.5.0'
+  - '@mui/material@9.5.0'
+  - '@mui/private-theming@9.5.0'
+  - '@mui/styled-engine@9.5.0'
+  - '@mui/system@9.5.0'
+  - '@mui/types@9.5.0'
+  - '@mui/utils@9.5.0'

@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
-    "@farmfe/cli": "^1.0.4",
+    "@farmfe/cli": "^2.0.0",
     "@farmfe/core": "^2.0.0",
-    "@farmfe/plugin-react": "^1.2.6",
+    "@farmfe/plugin-react": "^2.0.0",
     "@playwright/test": "^1.49.1",
     "@types/node": "^26.0.0",
     "@types/react": "^19.0.2",

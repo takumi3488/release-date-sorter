@@ -272,3 +272,6 @@ minimumReleaseAgeExclude:
   - '@farmfe/plugin-react-win32-arm64-msvc@2.0.0'
   - '@farmfe/plugin-react-win32-ia32-msvc@2.0.0'
   - '@farmfe/plugin-react-win32-x64-msvc@2.0.0'
+  - '@playwright/test@1.65.1'
+  - playwright-core@1.65.1
+  - playwright@1.65.1

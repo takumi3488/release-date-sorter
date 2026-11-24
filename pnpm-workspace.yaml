@@ -303,3 +303,4 @@ minimumReleaseAgeExclude:
   - '@mui/system@9.6.0'
   - '@mui/types@9.6.0'
   - '@mui/utils@9.6.0'
+  - '@types/react@19.3.1'

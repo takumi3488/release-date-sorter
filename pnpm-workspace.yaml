@@ -316,3 +316,4 @@ minimumReleaseAgeExclude:
   - '@biomejs/cli-win32-arm64@2.6.9'
   - '@biomejs/cli-win32-x64@2.6.9'
   - '@types/node@26.6.7'
+  - '@types/react@19.3.3'

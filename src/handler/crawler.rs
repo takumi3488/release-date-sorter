@@ -7,7 +7,7 @@ use axum::{
 use crate::{
     config::Config,
     persistence::repository::{series::SeriesRepository, volume::VolumeRepository},
-    usecase::pages::{danmachi::Danmachi, page::Page},
+    usecase::pages::{aobuta::Aobuta, danmachi::Danmachi, page::Page},
 };
 
 #[tracing::instrument]
@@ -24,11 +24,12 @@ pub async fn crawl_pages(headers: HeaderMap, State(config): State<Config>) -> im
     let series_repository = SeriesRepository::new(&config.db_pool);
     let volume_repository = VolumeRepository::new(&config.db_pool);
     tokio::spawn(async move {
-        let _ = Danmachi::get_series(&series_repository, &volume_repository)
-            .await
-            .map_err(|e| {
-                tracing::error!("Failed to get series: {:?}", e);
-            });
+        if let Err(e) = Danmachi::get_series(&series_repository, &volume_repository).await {
+            tracing::error!("Failed to get series danmachi: {:?}", e);
+        }
+        if let Err(e) = Aobuta::get_series(&series_repository, &volume_repository).await {
+            tracing::error!("Failed to get series aobuta: {:?}", e);
+        }
     });
     (StatusCode::NO_CONTENT).into_response()
 }

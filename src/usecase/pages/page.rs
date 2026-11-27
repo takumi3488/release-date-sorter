@@ -8,7 +8,20 @@ use crate::domain::{
 
 pub trait Page<T> {
     async fn get_html_from_url() -> Result<Html> {
-        let document = reqwest::get(Self::get_url()).await?.text().await?;
+        // Wikipedia rejects requests without a User-Agent (403).
+        let document = reqwest::Client::builder()
+            .user_agent(concat!(
+                "release-date-sorter/",
+                env!("CARGO_PKG_VERSION"),
+                " (https://github.com/takumi3488/release-date-sorter)"
+            ))
+            .build()?
+            .get(Self::get_url())
+            .send()
+            .await?
+            .error_for_status()?
+            .text()
+            .await?;
         Ok(Self::get_html_from_document(&document))
     }
     fn get_html_from_document(document: &str) -> Html {

@@ -2,7 +2,8 @@ FROM node:26-slim AS web
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
-RUN corepack enable
+# Node.js 25+ no longer bundles corepack
+RUN npm install -g corepack && corepack enable
 COPY . /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build

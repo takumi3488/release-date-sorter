@@ -1,5 +1,5 @@
 use regex::Regex;
-use scraper::{ElementRef, Html, Selector};
+use scraper::{Html, Selector};
 
 use crate::domain::entity::volume::NewVolume;
 
@@ -51,73 +51,32 @@ impl Page<Danmachi> for Danmachi {
     }
 
     fn get_volumes(html: Html) -> Vec<NewVolume> {
-        let Ok(contents_selector) =
-            Selector::parse("div#mw-content-text>div.mw-content-ltr.mw-parser-output")
+        // The section only holds the novels; comics live in the sibling "漫画" section.
+        let Ok(item_selector) =
+            Selector::parse(r#"section[aria-labelledby="既刊一覧"] :is(dt, table.wikitable)"#)
         else {
             return vec![];
         };
-        let Some(contents) = html.select(&contents_selector).next() else {
-            return vec![];
-        };
-
-        // Selector
         let Ok(row_selector) = Selector::parse("tr") else {
             return vec![];
         };
         let Ok(td_selector) = Selector::parse("td") else {
             return vec![];
         };
-
-        // Get elements
-        let mut edition_name = None::<String>;
-        let mut volumes = vec![];
         let Ok(date_pattern) = Regex::new(r"(\d{4})年(\d{1,2})月(\d{1,2})日") else {
             return vec![];
         };
-        let mut flg = false;
-        for node in contents.children() {
-            if node.first_child().is_some_and(|e| {
-                !flg && e
-                    .value()
-                    .as_element()
-                    .is_some_and(|e| e.attr("id").is_some_and(|id| id == "既刊一覧"))
-            }) {
-                flg = true;
-            } else if node.first_child().is_some_and(|e| {
-                e.value()
-                    .as_element()
-                    .is_some_and(|e| e.attr("id").is_some_and(|id| id == "漫画"))
-            }) {
-                break;
-            }
-            if flg {
-                if let Some(first_child) = node.first_child() {
-                    let element_ref = ElementRef::wrap(node);
-                    if first_child
-                        .value()
-                        .as_element()
-                        .is_some_and(|e| e.name() == "dt")
-                    {
-                        // Get edition name
-                        edition_name =
-                            ElementRef::wrap(first_child).map(|el| el.text().collect::<String>());
-                        edition_name = edition_name.map(|en| en.trim().to_string());
-                    } else if let Some(en) = edition_name.clone() {
-                        if element_ref.is_some_and(|e| {
-                            e.attr("class").is_some_and(|c| c.contains("wikitable"))
-                        }) {
-                            // Get table
-                            let Some(table) = ElementRef::wrap(node) else {
-                                continue;
-                            };
-                            let new_volumes = table
-                                .select(&row_selector)
-                                .filter_map(|row| parse_row(row, &td_selector, &date_pattern, &en))
-                                .collect::<Vec<_>>();
-                            volumes.extend(new_volumes);
-                        }
-                    }
-                }
+
+        let mut edition_name = None::<String>;
+        let mut volumes = vec![];
+        for item in html.select(&item_selector) {
+            if item.value().name() == "dt" {
+                edition_name = Some(item.text().collect::<String>().trim().to_string());
+            } else if let Some(en) = &edition_name {
+                volumes.extend(
+                    item.select(&row_selector)
+                        .filter_map(|row| parse_row(row, &td_selector, &date_pattern, en)),
+                );
             }
         }
         volumes
@@ -134,5 +93,12 @@ mod tests {
         let html = Danmachi::get_html_from_document(document);
         let volumes = Danmachi::get_volumes(html);
         assert!(volumes.len() > 30);
+        // Comics ("漫画" section) are excluded.
+        assert!(volumes
+            .iter()
+            .all(|v| !v.title.starts_with("ダンまち4コマ")));
+        assert!(volumes
+            .iter()
+            .any(|v| Some(v.publication_date) > chrono::NaiveDate::from_ymd_opt(2024, 12, 15)));
     }
 }

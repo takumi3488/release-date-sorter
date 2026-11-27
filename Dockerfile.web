@@ -4,7 +4,8 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN apt-get update && apt-get install -y curl
-RUN corepack enable
+# Node.js 25+ no longer bundles corepack
+RUN npm install -g corepack && corepack enable
 COPY . /app
 
 WORKDIR /app
